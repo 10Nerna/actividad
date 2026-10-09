@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Misión Distancia</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="juego">
+
+    <!-- =========================
+         INICIO
+    ========================= -->
+    <section id="inicio">
+        <div class="logo">🚀</div>
+        <div class="subtitulo">Exploración matemática</div>
+        <h1>MISIÓN DISTANCIA</h1>
+        <p>
+            Observa los puntos en el plano cartesiano,
+            calcula la distancia exacta entre ellos
+            y demuestra tu dominio de la geometría.
+        </p>
+        <p style="font-size:14px; color:#8b87a8; margin-top:6px;">
+            10 misiones · Orden aleatorio · Distancias exactas
+        </p>
+
+        <button class="boton-grande" onclick="iniciarJuego()">
+            🚀 COMENZAR MISIÓN
+        </button>
+
+        <div class="reglas">
+            <div class="regla">
+                <span>📍</span>
+                <h3>Observa</h3>
+                <p>Identifica las coordenadas de los puntos A y B en el plano.</p>
+            </div>
+            <div class="regla">
+                <span>📐</span>
+                <h3>Calcula</h3>
+                <p>Aplica la fórmula de distancia euclidiana con precisión.</p>
+            </div>
+            <div class="regla">
+                <span>🏆</span>
+                <h3>Conquista</h3>
+                <p>Gana puntos y completa las 10 misiones sin perder las 3 vidas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================
+         JUEGO
+    ========================= -->
+    <section id="juego">
+        <div class="encabezado">
+            <div class="titulo">
+                🚀 Misión Distancia
+                <span class="nivel-badge" id="nivelBadge">Misión 1/10</span>
+            </div>
+            <div class="estadisticas">
+                <div class="estadistica" id="statPuntos">
+                    ⭐ <span id="puntos">0</span>
+                </div>
+                <div class="estadistica" id="statVidas">
+                    ❤️ <span id="vidas">3</span>
+                </div>
+                <div class="estadistica" id="statRacha">
+                    🔥 <span id="racha">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="barra-contenedor">
+            <div id="barra"></div>
+        </div>
+        <div class="progreso-texto" id="progresoTexto">Misión 1 de 10</div>
+
+        <div class="contenido">
+            <!-- PLANO -->
+            <div class="panel">
+                <div class="panel-titulo">🗺️ Plano Cartesiano</div>
+                <canvas id="canvas" width="600" height="500"></canvas>
+            </div>
+
+            <!-- RETO -->
+            <div class="panel reto">
+                <h2>🎯 ¿Cuál es la distancia?</h2>
+                <p class="descripcion">
+                    Calcula la distancia exacta entre los puntos A y B.
+                    Responde con el número exacto (puede ser decimal).
+                </p>
+
+                <div class="coordenadas">
+                    <div class="punto punto-a" id="puntoA">🔴 A = (0, 0)</div>
+                    <div class="punto punto-b" id="puntoB">🔵 B = (0, 0)</div>
+                </div>
+
+                <div class="formula">
+                    <strong>📐 FÓRMULA DE DISTANCIA</strong>
+                    <code>d = √[(x₂ − x₁)² + (y₂ − y₁)²]</code>
+                </div>
+
+                <input
+                    id="respuesta"
+                    type="number"
+                    step="any"
+                    placeholder="Escribe la distancia exacta"
+                    autocomplete="off"
+                >
+
+                <button class="boton comprobar" id="comprobar" onclick="comprobarRespuesta()">
+                    ✅ COMPROBAR
+                </button>
+
+                <button class="boton siguiente" id="siguiente" onclick="siguienteReto()">
+                    ➡️ SIGUIENTE MISIÓN
+                </button>
+
+                <div id="resultado" class="resultado neutral">
+                    💡 Ingresa tu respuesta y comprueba.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================
+         VICTORIA
+    ========================= -->
+    <section id="victoria">
+        <div class="trofeo">🏆</div>
+        <h2>¡MISIÓN CUMPLIDA!</h2>
+        <p class="mensaje-final">Has completado las 10 misiones de distancia.</p>
+        <div class="estrellas" id="estrellas">⭐⭐⭐</div>
+
+        <div class="resultado-final">
+            <div class="final-item">
+                <strong id="finalPuntos">0</strong>
+                <span>⭐ Puntos obtenidos</span>
+            </div>
+            <div class="final-item">
+                <strong id="finalRacha">0</strong>
+                <span>🔥 Mejor racha</span>
+            </div>
+            <div class="final-item">
+                <strong id="finalEjercicios">10</strong>
+                <span>📐 Misiones completadas</span>
+            </div>
+            <div class="final-item">
+                <strong id="finalPrecision">100%</strong>
+                <span>🎯 Precisión</span>
+            </div>
+        </div>
+
+        <button class="boton-grande" onclick="reiniciarTodo()">
+            🔄 NUEVA MISIÓN
+        </button>
+    </section>
+
+    <!-- =========================
+         GAME OVER
+    ========================= -->
+    <section id="gameover">
+        <div class="icono-final">💥</div>
+        <h2>MISIÓN FALLIDA</h2>
+        <p class="mensaje-final">Te quedaste sin vidas. ¡Inténtalo de nuevo!</p>
+
+        <div class="resultado-final">
+            <div class="final-item">
+                <strong id="goPuntos">0</strong>
+                <span>⭐ Puntos logrados</span>
+            </div>
+            <div class="final-item">
+                <strong id="goCompletados">0</strong>
+                <span>📐 Misiones superadas</span>
+            </div>
+        </div>
+
+        <button class="boton-grande" onclick="reiniciarTodo()">
+            🔄 INTENTAR DE NUEVO
+        </button>
+    </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
